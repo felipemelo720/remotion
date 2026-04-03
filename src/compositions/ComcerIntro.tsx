@@ -46,6 +46,24 @@ export const ComcerIntro: React.FC<z.infer<typeof comcerIntroSchema>> = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#f0fdf4" }}>
+      {/* Logo static en todas las slides */}
+      <div
+        style={{
+          position: "absolute",
+          top: 40,
+          left: 40,
+          zIndex: 10,
+        }}
+      >
+        <img
+          src="/logos/comcer-logo.png"
+          style={{
+            height: 50,
+            objectFit: "contain",
+          }}
+        />
+      </div>
+
       {slides.map((slide, index) => {
         const slideStart = index * SLIDE_DURATION;
         const slideEnd = slideStart + SLIDE_DURATION;
@@ -72,12 +90,25 @@ export const ComcerIntro: React.FC<z.infer<typeof comcerIntroSchema>> = () => {
                   color: "white",
                 }}
               >
-                <TextBlock
-                  title={slide.title}
-                  subtitle={slide.subtitle}
-                  align="center"
-                  color="white"
-                />
+                <div
+                  style={{
+                    fontSize: 64,
+                    fontWeight: "bold",
+                    marginBottom: 20,
+                    fontFamily: "Montserrat, sans-serif",
+                  }}
+                >
+                  {slide.title}
+                </div>
+                <div
+                  style={{
+                    fontSize: 32,
+                    fontFamily: "Open Sans, sans-serif",
+                    opacity: 0.9,
+                  }}
+                >
+                  {slide.subtitle}
+                </div>
                 <div style={{ marginTop: 40 }}>
                   <Badge text={slide.badge} color="green" size="lg" />
                 </div>

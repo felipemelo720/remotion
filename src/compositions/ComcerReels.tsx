@@ -151,11 +151,21 @@ const SlideComponent: React.FC<{
 
       {/* Main content area */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        {/* Logo */}
+        <img
+          src="/logos/comcer-logo.png"
+          style={{
+            height: 60,
+            marginBottom: 40,
+            objectFit: "contain",
+          }}
+        />
+
         {/* Headline */}
         <h1
           style={{
             fontFamily: "Montserrat, sans-serif",
-            fontSize: content.layout === "stat" ? 64 : 56,
+            fontSize: content.layout === "stat" ? 88 : 76,
             fontWeight: 700,
             margin: 0,
             color: content.textColor,
@@ -190,13 +200,13 @@ const SlideComponent: React.FC<{
         <p
           style={{
             fontFamily: "Open Sans, sans-serif",
-            fontSize: 22,
+            fontSize: 28,
             fontWeight: 400,
             margin: content.stat ? "30px 0 0 0" : "24px 0 0 0",
             color: content.textColor,
             opacity: 0.9,
             maxWidth: 900,
-            lineHeight: 1.4,
+            lineHeight: 1.5,
             transform: `translateY(${descY}px)`,
             transitionDuration: "0s",
             opacity: descOpacity,
