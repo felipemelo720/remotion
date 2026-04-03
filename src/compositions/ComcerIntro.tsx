@@ -50,15 +50,15 @@ export const ComcerIntro: React.FC<z.infer<typeof comcerIntroSchema>> = () => {
       <div
         style={{
           position: "absolute",
-          top: 40,
-          left: 40,
+          top: 60,
+          left: 60,
           zIndex: 10,
         }}
       >
         <img
           src="/logos/comcer-logo.png"
           style={{
-            height: 50,
+            height: 100,
             objectFit: "contain",
           }}
         />
@@ -92,9 +92,9 @@ export const ComcerIntro: React.FC<z.infer<typeof comcerIntroSchema>> = () => {
               >
                 <div
                   style={{
-                    fontSize: 64,
+                    fontSize: 88,
                     fontWeight: "bold",
-                    marginBottom: 20,
+                    marginBottom: 30,
                     fontFamily: "Montserrat, sans-serif",
                   }}
                 >
@@ -102,7 +102,7 @@ export const ComcerIntro: React.FC<z.infer<typeof comcerIntroSchema>> = () => {
                 </div>
                 <div
                   style={{
-                    fontSize: 32,
+                    fontSize: 44,
                     fontFamily: "Open Sans, sans-serif",
                     opacity: 0.9,
                   }}

@@ -155,8 +155,8 @@ const SlideComponent: React.FC<{
         <img
           src="/logos/comcer-logo.png"
           style={{
-            height: 60,
-            marginBottom: 40,
+            height: 120,
+            marginBottom: 60,
             objectFit: "contain",
           }}
         />
@@ -165,11 +165,11 @@ const SlideComponent: React.FC<{
         <h1
           style={{
             fontFamily: "Montserrat, sans-serif",
-            fontSize: content.layout === "stat" ? 88 : 76,
+            fontSize: content.layout === "stat" ? 120 : 100,
             fontWeight: 700,
             margin: 0,
             color: content.textColor,
-            letterSpacing: "-1px",
+            letterSpacing: "-2px",
             transform: `translateY(${titleY}px)`,
             opacity: titleOpacity,
             transitionDuration: "0s",
@@ -183,10 +183,10 @@ const SlideComponent: React.FC<{
           <div
             style={{
               fontFamily: "Montserrat, sans-serif",
-              fontSize: 72,
+              fontSize: 96,
               fontWeight: 700,
               color: COLORS.accent,
-              margin: "20px 0 0 0",
+              margin: "30px 0 0 0",
               letterSpacing: "-2px",
               transform: `translateY(${descY}px)`,
               opacity: descOpacity,
@@ -200,13 +200,13 @@ const SlideComponent: React.FC<{
         <p
           style={{
             fontFamily: "Open Sans, sans-serif",
-            fontSize: 28,
+            fontSize: 36,
             fontWeight: 400,
-            margin: content.stat ? "30px 0 0 0" : "24px 0 0 0",
+            margin: content.stat ? "40px 0 0 0" : "30px 0 0 0",
             color: content.textColor,
             opacity: 0.9,
             maxWidth: 900,
-            lineHeight: 1.5,
+            lineHeight: 1.6,
             transform: `translateY(${descY}px)`,
             transitionDuration: "0s",
             opacity: descOpacity,
