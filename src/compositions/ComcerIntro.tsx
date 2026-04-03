@@ -8,6 +8,7 @@ import {
 import { TextBlock } from "../components/ui/TextBlock";
 import { Badge } from "../components/ui/Badge";
 import { z } from "zod";
+import comcerLogo from "../../public/logos/comcer-logo.png";
 
 export const comcerIntroSchema = z.object({});
 
@@ -56,7 +57,7 @@ export const ComcerIntro: React.FC<z.infer<typeof comcerIntroSchema>> = () => {
         }}
       >
         <img
-          src="/logos/comcer-logo.png"
+          src={comcerLogo}
           style={{
             height: 100,
             objectFit: "contain",

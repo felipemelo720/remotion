@@ -6,6 +6,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { z } from "zod";
+import comcerLogo from "../../public/logos/comcer-logo.png";
 
 export const comcerReelsSchema = z.object({});
 
@@ -153,7 +154,7 @@ const SlideComponent: React.FC<{
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
         {/* Logo */}
         <img
-          src="/logos/comcer-logo.png"
+          src={comcerLogo}
           style={{
             height: 120,
             marginBottom: 60,
