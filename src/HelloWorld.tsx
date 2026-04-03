@@ -7,10 +7,10 @@ import {
   useVideoConfig,
 } from "remotion";
 import { Logo } from "./HelloWorld/Logo";
-import { Subtitle } from "./HelloWorld/Subtitle";
-import { Title } from "./HelloWorld/Title";
 import { z } from "zod";
 import { zColor } from "@remotion/zod-types";
+import { TextBlock } from "./components/ui/TextBlock";
+import { Badge } from "./components/ui/Badge";
 
 export const myCompSchema = z.object({
   titleText: z.string(),
@@ -64,11 +64,18 @@ export const HelloWorld: React.FC<z.infer<typeof myCompSchema>> = ({
         </AbsoluteFill>
         {/* Sequences can shift the time for its children! */}
         <Sequence from={35}>
-          <Title titleText={propOne} titleColor={propTwo} />
+          <TextBlock
+            title={propOne}
+            subtitle="Hecho con Remotion"
+            align="center"
+            color={propTwo}
+          />
         </Sequence>
-        {/* The subtitle will only enter on the 75th frame. */}
+        {/* Badge appears at frame 75 */}
         <Sequence from={75}>
-          <Subtitle />
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 40 }}>
+            <Badge text="✨ Profesional" color="green" size="lg" />
+          </div>
         </Sequence>
       </AbsoluteFill>
     </AbsoluteFill>
