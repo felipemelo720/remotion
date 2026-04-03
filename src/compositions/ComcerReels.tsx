@@ -4,7 +4,6 @@ import {
   Sequence,
   useCurrentFrame,
   useVideoConfig,
-  useEffect,
 } from "remotion";
 import { z } from "zod";
 
@@ -16,186 +15,246 @@ const COLORS = {
   accent: "#98CC3F",
   text: "#1A1A1A",
   lightText: "#FFFFFF",
+  gray: "#8B8B8B",
 };
 
-const SLIDE_DURATION = 90; // 3 segundos a 30fps
+const SLIDE_DURATION = 105; // 3.5 segundos
 
-// Importar fuentes
-const fontsHtml = `
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-`;
-
-interface Slide {
-  title: string;
-  subtitle?: string;
+interface SlideContent {
+  layout: "brand" | "stat" | "benefit" | "cta";
   bgColor: string;
   textColor: string;
-  badge?: string;
-  layout: "centered" | "top" | "bottom";
+  headline: string;
+  stat?: string;
+  description: string;
+  accent?: string;
 }
 
-const slides: Slide[] = [
+const slides: SlideContent[] = [
   {
-    title: "COMCER",
-    subtitle: "Soluciones profesionales",
+    layout: "brand",
     bgColor: COLORS.darkBg,
     textColor: COLORS.lightText,
-    badge: "DESDE 2010",
-    layout: "centered",
+    headline: "COMCER",
+    description: "Limpieza sostenible para tu negocio",
+    accent: "DESDE 2010",
   },
   {
-    title: "100% Biodegradable",
-    subtitle: "Productos de alto rendimiento",
+    layout: "stat",
     bgColor: COLORS.lightBg,
     textColor: COLORS.text,
-    badge: "Eco-Certified",
-    layout: "centered",
+    headline: "Reduce costos de limpieza",
+    stat: "hasta 30%",
+    description: "Sin comprometer calidad ni sustentabilidad",
   },
   {
-    title: "Despacho a todo Chile",
-    subtitle: "En 24-48 horas",
+    layout: "benefit",
     bgColor: COLORS.darkBg,
     textColor: COLORS.lightText,
-    badge: "EXPRESS",
-    layout: "centered",
+    headline: "Certificado ISO",
+    description: "100% Biodegradable • Despacho 24-48h • Todo Chile",
+    accent: "+2000 empresas confían",
   },
   {
-    title: "Cotiza ahora",
-    subtitle: "comcer.cl | +56 9 XXXX XXXX",
+    layout: "cta",
     bgColor: COLORS.accent,
     textColor: COLORS.darkBg,
-    layout: "centered",
+    headline: "Cotiza ahora",
+    description: "comcer.cl | Llámanos +56 9 XXXX XXXX",
   },
 ];
 
-const Slide: React.FC<{
-  slide: Slide;
+const SlideComponent: React.FC<{
+  content: SlideContent;
   frame: number;
   slideIndex: number;
   duration: number;
-}> = ({ slide, frame, slideIndex, duration }) => {
+}> = ({ content, frame, slideIndex, duration }) => {
   const slideStart = slideIndex * duration;
   const localFrame = frame - slideStart;
 
-  // Fade in (primeros 15 frames)
-  const fadeInOpacity = interpolate(
+  // Fade in/out
+  const fadeIn = interpolate(
     localFrame,
-    [0, 15],
+    [0, 20],
+    [0, 1],
+    { extrapolateRight: "clamp" }
+  );
+  const fadeOut = interpolate(
+    localFrame,
+    [duration - 20, duration],
+    [1, 0],
+    { extrapolateLeft: "clamp" }
+  );
+  const opacity = Math.min(fadeIn, fadeOut);
+
+  // Staggered animations for elements
+  const titleY = interpolate(
+    localFrame,
+    [0, 25],
+    [30, 0],
+    { extrapolateRight: "clamp" }
+  );
+  const titleOpacity = interpolate(
+    localFrame,
+    [0, 25],
     [0, 1],
     { extrapolateRight: "clamp" }
   );
 
-  // Fade out (últimos 15 frames)
-  const fadeOutOpacity = interpolate(
+  const descY = interpolate(
     localFrame,
-    [duration - 15, duration],
-    [1, 0],
-    { extrapolateLeft: "clamp" }
+    [15, 40],
+    [30, 0],
+    { extrapolateRight: "clamp" }
+  );
+  const descOpacity = interpolate(
+    localFrame,
+    [15, 40],
+    [0, 1],
+    { extrapolateRight: "clamp" }
   );
 
-  const opacity = Math.min(fadeInOpacity, fadeOutOpacity);
-
-  // Scale animation (subtle zoom)
-  const scale = interpolate(
+  const accentY = interpolate(
     localFrame,
-    [0, duration],
-    [0.95, 1],
+    [30, 55],
+    [20, 0],
+    { extrapolateRight: "clamp" }
+  );
+  const accentOpacity = interpolate(
+    localFrame,
+    [30, 55],
+    [0, 1],
     { extrapolateRight: "clamp" }
   );
 
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: slide.bgColor,
+        backgroundColor: content.bgColor,
         opacity,
-        transform: `scale(${scale})`,
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 40,
-        textAlign: "center",
+        justifyContent: "space-around",
+        padding: "80px 60px",
       }}
     >
-      {/* Main Title */}
-      <h1
+      {/* Top decorative line */}
+      <div
         style={{
-          fontFamily: "Montserrat, sans-serif",
-          fontSize: 72,
-          fontWeight: 700,
-          margin: "0 0 20px 0",
-          color: slide.textColor,
-          letterSpacing: "-1px",
+          height: 3,
+          width: 80,
+          backgroundColor: COLORS.accent,
+          marginBottom: 60,
         }}
-      >
-        {slide.title}
-      </h1>
+      />
 
-      {/* Subtitle */}
-      {slide.subtitle && (
+      {/* Main content area */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        {/* Headline */}
+        <h1
+          style={{
+            fontFamily: "Montserrat, sans-serif",
+            fontSize: content.layout === "stat" ? 64 : 56,
+            fontWeight: 700,
+            margin: 0,
+            color: content.textColor,
+            letterSpacing: "-1px",
+            transform: `translateY(${titleY}px)`,
+            opacity: titleOpacity,
+            transitionDuration: "0s",
+          }}
+        >
+          {content.headline}
+        </h1>
+
+        {/* Stat (if applicable) */}
+        {content.stat && (
+          <div
+            style={{
+              fontFamily: "Montserrat, sans-serif",
+              fontSize: 72,
+              fontWeight: 700,
+              color: COLORS.accent,
+              margin: "20px 0 0 0",
+              letterSpacing: "-2px",
+              transform: `translateY(${descY}px)`,
+              opacity: descOpacity,
+            }}
+          >
+            {content.stat}
+          </div>
+        )}
+
+        {/* Description */}
         <p
           style={{
             fontFamily: "Open Sans, sans-serif",
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: 400,
-            margin: "0 0 30px 0",
-            color: slide.textColor,
-            opacity: 0.85,
+            margin: content.stat ? "30px 0 0 0" : "24px 0 0 0",
+            color: content.textColor,
+            opacity: 0.9,
             maxWidth: 900,
+            lineHeight: 1.4,
+            transform: `translateY(${descY}px)`,
+            transitionDuration: "0s",
+            opacity: descOpacity,
           }}
         >
-          {slide.subtitle}
+          {content.description}
         </p>
-      )}
 
-      {/* Badge */}
-      {slide.badge && (
-        <div
-          style={{
-            backgroundColor: COLORS.accent,
-            color: COLORS.darkBg,
-            padding: "8px 20px",
-            borderRadius: 20,
-            fontFamily: "Montserrat, sans-serif",
-            fontSize: 14,
-            fontWeight: 600,
-            marginTop: 15,
-            letterSpacing: "0.5px",
-          }}
-        >
-          {slide.badge}
-        </div>
-      )}
+        {/* Accent/Trust metric */}
+        {content.accent && (
+          <div
+            style={{
+              marginTop: 40,
+              paddingTop: 30,
+              borderTop: `2px solid ${COLORS.accent}`,
+              fontFamily: "Open Sans, sans-serif",
+              fontSize: 16,
+              fontWeight: 600,
+              color: COLORS.accent,
+              letterSpacing: "0.5px",
+              transform: `translateY(${accentY}px)`,
+              opacity: accentOpacity,
+              transitionDuration: "0s",
+            }}
+          >
+            {content.accent}
+          </div>
+        )}
+      </div>
 
-      {/* Accent line */}
+      {/* Bottom decorative elements */}
       <div
         style={{
-          height: 4,
-          width: 60,
-          backgroundColor: COLORS.accent,
-          marginTop: 40,
-          borderRadius: 2,
+          display: "flex",
+          gap: 12,
+          marginTop: 60,
         }}
-      />
+      >
+        <div style={{ height: 3, flex: 1, backgroundColor: COLORS.accent, opacity: 0.3 }} />
+        <div style={{ height: 3, width: 60, backgroundColor: COLORS.accent }} />
+      </div>
     </AbsoluteFill>
   );
 };
 
 export const ComcerReels: React.FC<z.infer<typeof comcerReelsSchema>> = () => {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.lightBg }}>
-      {/* Render all slides */}
       {slides.map((slide, index) => (
         <Sequence
           key={index}
           from={index * SLIDE_DURATION}
           durationInFrames={SLIDE_DURATION}
         >
-          <Slide
-            slide={slide}
+          <SlideComponent
+            content={slide}
             frame={frame}
             slideIndex={index}
             duration={SLIDE_DURATION}
