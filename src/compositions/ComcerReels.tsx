@@ -140,6 +140,23 @@ const SlideComponent: React.FC<{
         padding: "80px 60px",
       }}
     >
+      {/* Logo centered at top */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: 40,
+        }}
+      >
+        <img
+          src={comcerLogo}
+          style={{
+            height: 100,
+            objectFit: "contain",
+          }}
+        />
+      </div>
+
       {/* Top decorative line */}
       <div
         style={{
@@ -152,16 +169,6 @@ const SlideComponent: React.FC<{
 
       {/* Main content area */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        {/* Logo */}
-        <img
-          src={comcerLogo}
-          style={{
-            height: 120,
-            marginBottom: 60,
-            objectFit: "contain",
-          }}
-        />
-
         {/* Headline */}
         <h1
           style={{

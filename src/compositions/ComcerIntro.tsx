@@ -47,12 +47,13 @@ export const ComcerIntro: React.FC<z.infer<typeof comcerIntroSchema>> = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#f0fdf4" }}>
-      {/* Logo static en todas las slides */}
+      {/* Logo centered at top */}
       <div
         style={{
           position: "absolute",
           top: 60,
-          left: 60,
+          left: "50%",
+          transform: "translateX(-50%)",
           zIndex: 10,
         }}
       >
