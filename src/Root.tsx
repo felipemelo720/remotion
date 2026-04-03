@@ -3,6 +3,7 @@ import { Composition } from "remotion";
 import { HelloWorld, myCompSchema } from "./HelloWorld";
 import { Logo, myCompSchema2 } from "./HelloWorld/Logo";
 import { ComcerIntro, comcerIntroSchema } from "./compositions/ComcerIntro";
+import { ComcerReels, comcerReelsSchema } from "./compositions/ComcerReels";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -52,6 +53,17 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
         schema={comcerIntroSchema}
+        defaultProps={{}}
+      />
+
+      <Composition
+        id="ComcerReels"
+        component={ComcerReels}
+        durationInFrames={360}
+        fps={30}
+        width={1080}
+        height={1920}
+        schema={comcerReelsSchema}
         defaultProps={{}}
       />
     </>
