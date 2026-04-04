@@ -74,8 +74,8 @@ const slides: SlideContent[] = [
   },
   {
     type: "cta",
-    bgColor: COLORS.accent,
-    textColor: COLORS.darkBg,
+    bgColor: COLORS.darkBg,
+    textColor: COLORS.lightText,
     headline: "Cotiza ahora",
     description: "comcer.cl",
   },
@@ -253,27 +253,58 @@ const SlideComponent: React.FC<{
           </div>
         )}
 
-        {/* Description */}
-        <p
-          style={{
-            fontFamily: "Open Sans, sans-serif",
-            fontSize: 38,
-            fontWeight: 400,
-            margin: content.stat ? "30px 0 0 0" : "25px 0 0 0",
-            color: content.textColor,
-            opacity: 0.9,
-            maxWidth: 900,
-            lineHeight: 1.6,
-            transform: `translateY(${descY}px)`,
-            transitionDuration: "0s",
-          }}
-        >
-          {content.description}
-        </p>
+        {/* Description — oculta en CTA, el botón cumple ese rol */}
+        {content.type !== "cta" && (
+          <p
+            style={{
+              fontFamily: "Open Sans, sans-serif",
+              fontSize: 38,
+              fontWeight: 400,
+              margin: content.stat ? "30px 0 0 0" : "25px 0 0 0",
+              color: content.textColor,
+              opacity: 0.9,
+              maxWidth: 900,
+              lineHeight: 1.6,
+              transform: `translateY(${descY}px)`,
+              transitionDuration: "0s",
+            }}
+          >
+            {content.description}
+          </p>
+        )}
 
         {/* Progress bar for coverage slide */}
         {content.type === "coverage" && (
           <ProgressBar progress={progressWidth} color={COLORS.accent} />
+        )}
+
+        {/* CTA button — solo para el slide de tipo cta */}
+        {content.type === "cta" && (
+          <div
+            style={{
+              marginTop: 50,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 16,
+              transform: `translateY(${accentY}px)`,
+              opacity: accentOpacity,
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: COLORS.accent,
+                color: COLORS.darkBg,
+                fontFamily: "Montserrat, sans-serif",
+                fontSize: 34,
+                fontWeight: 700,
+                padding: "22px 52px",
+                borderRadius: 8,
+                letterSpacing: "0.5px",
+              }}
+            >
+              comcer.cl
+            </div>
+          </div>
         )}
 
         {/* Bottom accent element */}
